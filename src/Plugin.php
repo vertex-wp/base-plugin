@@ -50,8 +50,6 @@ final class Plugin {
 		// Register this plugin with Vertex.
 		App::getInstance()->registerPlugin( dirname( EXAMPLE_PLUGIN_FILE ) );
 
-		// Temporary translation-pipeline test string.
-		__( 'Hello', 'ephpicman-plugin' );
 
 		load_plugin_textdomain(
 			'ephpicman-plugin',
