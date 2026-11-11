@@ -31,8 +31,8 @@ VertexLoader::register(
 
 $plugin = ExamplePlugin\Plugin::get_instance();
 
-register_activation_hook( __FILE__, array( $plugin, 'activate' ) );
-register_deactivation_hook( __FILE__, array( $plugin, 'deactivate' ) );
+register_activation_hook( __FILE__, array( $example_plugin, 'activate' ) );
+register_deactivation_hook( __FILE__, array( $example_plugin, 'deactivate' ) );
 register_uninstall_hook( __FILE__, array( 'ExamplePlugin\\Plugin', 'uninstall' ) );
 
-add_action( 'init', array( $plugin, 'init' ) );
+add_action( 'init', array( $example_plugin, 'init' ) );
