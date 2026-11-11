@@ -42,12 +42,12 @@ jobs:
           php wp-cli.phar --info
 
       - name: Generate POT from product PHP source
-        run: php wp-cli.phar i18n make-pot . languages/ephpicman-plugin.pot --domain=ephpicman-plugin --exclude=vertex
+        run: php wp-cli.phar i18n make-pot . languages/example-plugin.pot --domain=example-plugin --exclude=vertex
 
       - name: Update existing PO catalogs without discarding translations
         run: |
-          if [ -f languages/ephpicman-plugin-fa_IR.po ]; then
-            php wp-cli.phar i18n update-po languages/ephpicman-plugin.pot languages/ephpicman-plugin-fa_IR.po
+          if [ -f languages/example-plugin-fa_IR.po ]; then
+            php wp-cli.phar i18n update-po languages/example-plugin.pot languages/example-plugin-fa_IR.po
           fi
 
       - name: Compile MO files
