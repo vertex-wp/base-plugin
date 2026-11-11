@@ -13,8 +13,9 @@ on:
 permissions:
   contents: write
 
+# Serialise workflows that commit generated files to main.
 concurrency:
-  group: sync-vertex-main
+  group: base-plugin-main-writes
   cancel-in-progress: false
 
 jobs:

@@ -5,7 +5,8 @@ on:
     branches:
       - main
     paths:
-      - '**/*.php'
+      - 'index.php'
+      - 'src/**/*.php'
       - 'languages/*.po'
       - '.github/workflows/translations.yml'
   workflow_dispatch:
@@ -13,8 +14,9 @@ on:
 permissions:
   contents: write
 
+# Serialise workflows that commit generated files to main.
 concurrency:
-  group: translation-files-${{ github.ref }}
+  group: base-plugin-main-writes
   cancel-in-progress: false
 
 jobs:
@@ -25,7 +27,8 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref }}
+          ref: main
+          fetch-depth: 0
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -38,8 +41,8 @@ jobs:
           curl -fsSLo wp-cli.phar https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
           php wp-cli.phar --info
 
-      - name: Generate POT from PHP source
-        run: php wp-cli.phar i18n make-pot . languages/ephpicman-plugin.pot --domain=ephpicman-plugin
+      - name: Generate POT from product PHP source
+        run: php wp-cli.phar i18n make-pot . languages/ephpicman-plugin.pot --domain=ephpicman-plugin --exclude=vertex
 
       - name: Update existing PO catalogs without discarding translations
         run: |
@@ -51,13 +54,21 @@ jobs:
         run: php wp-cli.phar i18n make-mo languages
 
       - name: Commit generated translation files
+        shell: bash
         run: |
-          if [[ -n "$(git status --porcelain -- languages)" ]]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add languages/*.pot languages/*.po languages/*.mo
-            git commit -m "chore(i18n): regenerate translation files [skip ci]"
-            git push
-          else
+          set -euo pipefail
+
+          if [[ -z "$(git status --porcelain -- languages)" ]]; then
             echo "Translation files are already up to date."
+            exit 0
           fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add languages/*.pot languages/*.po languages/*.mo
+          git commit -m "chore(i18n): regenerate translation files [skip ci]"
+
+          # Rebase generated files onto the latest main before pushing.
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
