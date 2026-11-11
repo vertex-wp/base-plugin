@@ -1,5 +1,7 @@
 name: PHP Lint
 
+# Run syntax checks against both product code and the synchronised Vertex framework.
+
 on:
   push:
   pull_request:
