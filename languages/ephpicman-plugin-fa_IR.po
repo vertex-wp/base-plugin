@@ -18,11 +18,6 @@ msgstr ""
 msgid "Ephpicman Plugin Starter"
 msgstr ""
 
-#. Plugin URI of the plugin
-#: index.php
-msgid "https://github.com/ephpicman/Plugin"
-msgstr ""
-
 #. Description of the plugin
 #: index.php
 msgid "A lightweight foundation for Ephpicman WordPress plugins."
@@ -41,3 +36,8 @@ msgstr ""
 #: src/Plugin.php:54
 msgid "Hello"
 msgstr "سلام"
+
+#. Plugin URI of the plugin
+#: index.php
+msgid "https://github.com/vertex-wp/base-plugin"
+msgstr ""
