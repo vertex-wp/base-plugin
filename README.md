@@ -38,8 +38,8 @@ languages/                             POT template and translated PO/MO catalog
 .github/workflows/php-lint.yml         PHP syntax checks across PHP 8.0–8.5
 .github/workflows/phpcs.yml            WordPress Coding Standards checks
 .github/workflows/wordpress-tests.yml  WordPress integration-test matrix
-.github/workflows/translations.yml    Translation catalogue generation and compilation
- tests/test-plugin-integration.php      WordPress bootstrap integration test
+.github/workflows/translations.yml     Translation catalogue generation and compilation
+tests/test-plugin-integration.php      WordPress bootstrap integration test
 .github/workflows/sync-vertex.yml      Scheduled and manual Vertex synchronisation
 phpcs.xml.dist                         WordPress Coding Standards configuration
 LICENSE                                GPL-2.0-or-later licence notice
