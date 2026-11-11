@@ -30,15 +30,45 @@ jobs:
             wordpress-version: 'latest'
           - php-version: '8.5'
             wordpress-version: 'latest'
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: wordpress_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=root"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Install WordPress and run plugin integration tests
-        uses: holyhope/test-wordpress-plugin-github-action@v2.0.4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
         with:
-          plugin_slug: example-plugin
-          plugin_dir: .
-          php_version: ${{ matrix.php-version }}
-          wordpress_version: ${{ matrix.wordpress-version }}
-          phpunit_version: '^9'
-          scaffold_tests: true
+          php-version: ${{ matrix.php-version }}
+          extensions: curl, dom, json, mbstring, mysqli, xml, zip
+          coverage: none
+
+      - name: Install PHPUnit
+        run: |
+          composer global require --no-interaction --prefer-dist phpunit/phpunit:^9.6
+          echo "$(composer global config bin-dir --absolute)" >> "$GITHUB_PATH"
+
+      - name: Install WordPress test suite
+        run: |
+          curl --fail --silent --show-error --location \
+            https://raw.githubusercontent.com/wp-cli/scaffold-command/master/templates/install-wp-tests.sh \
+            --output /tmp/install-wp-tests.sh
+          bash /tmp/install-wp-tests.sh wordpress_test root root 127.0.0.1 ${{ matrix.wordpress-version }}
+
+      - name: Run integration tests
+        env:
+          WP_TESTS_DIR: /tmp/wordpress-tests-lib
+        run: phpunit --bootstrap tests/bootstrap.php tests
