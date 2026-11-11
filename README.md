@@ -35,8 +35,11 @@ src/Plugin.php                         Plugin lifecycle and initialisation
 vertex/bootstrap.php                   Shared Vertex loader/bootstrap
 vertex/src/                            Synchronised Vertex framework source
 languages/                             POT template and translated PO/MO catalogues
-.github/workflows/php-lint.yml         PHP syntax checks
+.github/workflows/php-lint.yml         PHP syntax checks across PHP 8.0–8.5
+.github/workflows/phpcs.yml            WordPress Coding Standards checks
+.github/workflows/wordpress-tests.yml  WordPress integration-test matrix
 .github/workflows/translations.yml    Translation catalogue generation and compilation
+ tests/test-plugin-integration.php      WordPress bootstrap integration test
 .github/workflows/sync-vertex.yml      Scheduled and manual Vertex synchronisation
 phpcs.xml.dist                         WordPress Coding Standards configuration
 LICENSE                                GPL-2.0-or-later licence notice
@@ -98,14 +101,15 @@ For product features:
 
 ### 6. Check CI and repository settings
 
-- Confirm the PHP lint workflow passes. It currently checks syntax with PHP 8.0 and PHP 8.2.
-- Run WordPress Coding Standards checks locally or add them to CI if they are part of the product's quality gate.
+- Confirm the PHP lint workflow passes across PHP 8.0–8.5.
+- Confirm the PHPCS workflow passes using the WordPress Coding Standards ruleset.
+- Confirm the WordPress integration-test workflow passes against WordPress 6.3 on PHP 8.0 and the latest WordPress release across PHP 8.0–8.5.
 - Confirm the translation workflow uses the correct Text Domain and catalogue filenames.
 - Confirm Vertex synchronisation succeeds and that the expected files under `vertex/` are present.
 - Ensure GitHub Actions permissions allow only the writes required by the workflows.
 - Enable branch protection and require the appropriate checks before merging when the repository is ready for team development.
 
-PHP lint verifies syntax only. It does not prove that WordPress can activate the plugin or that Vertex initialises correctly. Test activation and actual product behaviour in a WordPress environment before release.
+PHP lint verifies syntax only. The WordPress integration-test workflow installs WordPress, loads the plugin in that environment, and runs PHPUnit integration tests. Keep meaningful tests under `tests/`; syntax checks alone do not prove that the plugin behaves correctly. The starter test is intentionally minimal and should be expanded as product behaviour is added.
 
 ## Development
 
@@ -113,8 +117,9 @@ PHP lint verifies syntax only. It does not prove that WordPress can activate the
 2. Complete the customisation checklist above.
 3. Activate the plugin in WordPress.
 4. Implement product-specific behaviour under `src/`.
-5. Run PHP syntax and coding-standard checks before pushing changes.
-6. Test the plugin in a real WordPress environment.
+5. Run PHP syntax and WordPress Coding Standards checks before pushing changes.
+6. Run the WordPress integration tests against the minimum supported and latest WordPress versions.
+7. Test product-specific behaviour in a real WordPress environment.
 
 ## Vertex synchronisation
 
