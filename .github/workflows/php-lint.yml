@@ -4,6 +4,8 @@ name: PHP Lint
 
 on:
   push:
+    branches:
+      - main
   pull_request:
   workflow_dispatch:
 
@@ -12,12 +14,16 @@ permissions:
 
 jobs:
   lint:
-    name: PHP syntax (PHP ${{ matrix.php-version }})
+    name: PHP syntax (PHP ${{ matrix.php-version }}${{ matrix.experimental && ' (experimental)' || '' }})
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental || false }}
     strategy:
       fail-fast: false
       matrix:
-        php-version: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+        php-version: ['8.0', '8.1', '8.2', '8.3', '8.4', '8.5', '8.6']
+        include:
+          - php-version: '8.6'
+            experimental: true
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
