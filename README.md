@@ -35,7 +35,7 @@ src/Plugin.php                         Plugin lifecycle and initialisation
 vertex/bootstrap.php                   Shared Vertex loader/bootstrap
 vertex/src/                            Synchronised Vertex framework source
 languages/                             POT template and translated PO/MO catalogues
-.github/workflows/php-lint.yml         PHP syntax checks across PHP 8.0–8.5
+.github/workflows/php-lint.yml         PHP syntax checks across PHP 8.0–8.6
 .github/workflows/phpcs.yml            WordPress Coding Standards checks
 .github/workflows/wordpress-tests.yml  WordPress integration-test matrix
 .github/workflows/translations.yml     Translation catalogue generation and compilation
@@ -101,15 +101,28 @@ For product features:
 
 ### 6. Check CI and repository settings
 
-- Confirm the PHP lint workflow passes across PHP 8.0–8.5.
+- Confirm the PHP lint workflow passes across PHP 8.0–8.6; PHP 8.6 currently uses a nightly build and is experimental.
 - Confirm the PHPCS workflow passes using the WordPress Coding Standards ruleset.
-- Confirm the WordPress integration-test workflow passes against WordPress 6.3 on PHP 8.0 and the latest WordPress release across PHP 8.0–8.5.
+- Confirm the WordPress integration-test workflow runs all 70 combinations of PHP 8.0–8.6 and WordPress 6.3–7.1 plus `latest`. Combinations outside the WordPress Core PHP compatibility matrix, and all PHP 8.6 combinations, are marked experimental and do not block the workflow.
 - Confirm the translation workflow uses the correct Text Domain and catalogue filenames.
 - Confirm Vertex synchronisation succeeds and that the expected files under `vertex/` are present.
 - Ensure GitHub Actions permissions allow only the writes required by the workflows.
 - Enable branch protection and require the appropriate checks before merging when the repository is ready for team development.
 
 PHP lint verifies syntax only. The WordPress integration-test workflow installs WordPress, loads the plugin in that environment, and runs PHPUnit integration tests. Keep meaningful tests under `tests/`; syntax checks alone do not prove that the plugin behaves correctly. The starter test is intentionally minimal and should be expanded as product behaviour is added.
+
+## CI compatibility matrix
+
+The WordPress integration workflow runs the full cross-product of these targets:
+
+- WordPress: 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 6.9, 7.0, 7.1, and `latest`.
+- PHP: 8.0, 8.1, 8.2, 8.3, 8.4, 8.5, and 8.6.
+
+This produces 70 integration-test jobs. The `latest` target is retained in addition to explicit versions so the workflow automatically follows future WordPress releases.
+
+Combinations outside the WordPress Core team's published PHP compatibility matrix are labelled experimental and use `continue-on-error`. They still run, but failures do not block required checks. PHP 8.6 is currently installed as a nightly development build and all its combinations are experimental until PHP 8.6 is released and WordPress compatibility is established.
+
+See the [WordPress Core PHP compatibility matrix](https://make.wordpress.org/core/handbook/references/php-compatibility-and-wordpress-versions/) for the upstream compatibility classifications.
 
 ## Development
 
