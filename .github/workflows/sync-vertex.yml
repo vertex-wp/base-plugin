@@ -5,7 +5,7 @@ on:
     # 09:00 Asia/Tehran (UTC+03:30). GitHub scheduled workflows use UTC.
     - cron: "30 5 * * *"
   workflow_dispatch:
-  # Bootstrap vertex/ after this workflow is added.
+  # Run an initial framework sync whenever this workflow definition changes.
   push:
     paths:
       - ".github/workflows/sync-vertex.yml"
