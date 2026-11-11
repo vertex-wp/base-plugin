@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Ephpicman Plugin">
-	<description>WordPress Coding Standards for Ephpicman Plugin Starter.</description>
+<ruleset name="Example Plugin">
+	<description>WordPress Coding Standards for the Example Plugin starter.</description>
 	<file>.</file>
 	<exclude-pattern>vertex/*</exclude-pattern>
 	<exclude-pattern>vendor/*</exclude-pattern>
@@ -8,5 +8,7 @@
 	<arg name="colors"/>
 	<arg value="sp"/>
 	<config name="minimum_supported_wp_version" value="6.3"/>
-	<rule ref="WordPress"/>
+	<rule ref="WordPress">
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>\n\t\t<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+	</rule>
 </ruleset>

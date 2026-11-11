@@ -1,0 +1,74 @@
+name: WordPress Integration Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    name: PHP ${{ matrix.php-version }} / WordPress ${{ matrix.wordpress-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php-version: '8.0'
+            wordpress-version: '6.3'
+          - php-version: '8.0'
+            wordpress-version: 'latest'
+          - php-version: '8.1'
+            wordpress-version: 'latest'
+          - php-version: '8.2'
+            wordpress-version: 'latest'
+          - php-version: '8.3'
+            wordpress-version: 'latest'
+          - php-version: '8.4'
+            wordpress-version: 'latest'
+          - php-version: '8.5'
+            wordpress-version: 'latest'
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=root"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: curl, dom, json, mbstring, mysqli, xml, zip
+          coverage: none
+
+      - name: Install PHPUnit
+        run: |
+          composer global require --no-interaction --prefer-dist phpunit/phpunit:^9.6 yoast/phpunit-polyfills:^2.0
+          echo "$(composer global config bin-dir --absolute)" >> "$GITHUB_PATH"
+          echo "WP_TESTS_PHPUNIT_POLYFILLS_PATH=$(composer global config vendor-dir --absolute)/yoast/phpunit-polyfills" >> "$GITHUB_ENV"
+
+      - name: Install WordPress test suite
+        run: |
+          curl --fail --silent --show-error --location \
+            https://raw.githubusercontent.com/wp-cli/scaffold-command/master/templates/install-wp-tests.sh \
+            --output /tmp/install-wp-tests.sh
+          bash /tmp/install-wp-tests.sh wordpress_test root root 127.0.0.1 ${{ matrix.wordpress-version }}
+
+      - name: Run integration tests
+        env:
+          WP_TESTS_DIR: /tmp/wordpress-tests-lib
+        run: phpunit --bootstrap tests/bootstrap.php --test-suffix test-plugin-integration.php tests

@@ -50,7 +50,6 @@ final class Plugin {
 		// Register this plugin with Vertex.
 		App::getInstance()->registerPlugin( dirname( EXAMPLE_PLUGIN_FILE ) );
 
-
 		load_plugin_textdomain(
 			'example-plugin',
 			false,
