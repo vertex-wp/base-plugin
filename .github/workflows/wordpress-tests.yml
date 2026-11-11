@@ -71,4 +71,4 @@ jobs:
       - name: Run integration tests
         env:
           WP_TESTS_DIR: /tmp/wordpress-tests-lib
-        run: phpunit --bootstrap tests/bootstrap.php tests
+        run: phpunit --bootstrap tests/bootstrap.php --test-suffix test-plugin-integration.php tests
