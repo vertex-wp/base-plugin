@@ -52,7 +52,7 @@ final class Plugin {
 
 
 		load_plugin_textdomain(
-			'ephpicman-plugin',
+			'example-plugin',
 			false,
 			dirname( plugin_basename( EXAMPLE_PLUGIN_FILE ) ) . '/languages'
 		);
