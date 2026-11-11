@@ -8,4 +8,7 @@
 	<arg name="colors"/>
 	<arg value="sp"/>
 	<config name="minimum_supported_wp_version" value="6.3"/>
-	<rule ref="WordPress">\n\t\t<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>\n\t</rule>\n</ruleset>
+	<rule ref="WordPress">
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName"/>
+	</rule>
+</ruleset>
