@@ -33,10 +33,6 @@ msgstr ""
 msgid "https://github.com/ephpicman"
 msgstr ""
 
-#: src/Plugin.php:54
-msgid "Hello"
-msgstr "سلام"
-
 #. Plugin URI of the plugin
 #: index.php
 msgid "https://github.com/vertex-wp/base-plugin"
