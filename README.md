@@ -2,7 +2,7 @@
 
 A reusable starter repository for building WordPress plugins on the **Vertex framework**. It provides a minimal plugin entry point, a product lifecycle class, the synchronised Vertex framework, translation automation, and basic CI. It intentionally excludes product-specific features and speculative abstractions.
 
-This repository is a framework-based starter template, not an Ephpicman product. Products created from it should define their own identity, namespace, plugin metadata, and translation domain.
+Products created from this framework-based starter template should define their own identity, namespace, plugin metadata, and translation domain.
 
 ## Platform requirements
 
