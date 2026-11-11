@@ -29,7 +29,7 @@ VertexLoader::register(
 	'1.4.0'
 );
 
-$plugin = ExamplePlugin\Plugin::get_instance();
+$example_plugin = ExamplePlugin\Plugin::get_instance();
 
 register_activation_hook( __FILE__, array( $example_plugin, 'activate' ) );
 register_deactivation_hook( __FILE__, array( $example_plugin, 'deactivate' ) );
