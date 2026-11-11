@@ -1,0 +1,44 @@
+name: WordPress Integration Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    name: PHP ${{ matrix.php-version }} / WordPress ${{ matrix.wordpress-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php-version: '8.0'
+            wordpress-version: '6.3'
+          - php-version: '8.0'
+            wordpress-version: 'latest'
+          - php-version: '8.1'
+            wordpress-version: 'latest'
+          - php-version: '8.2'
+            wordpress-version: 'latest'
+          - php-version: '8.3'
+            wordpress-version: 'latest'
+          - php-version: '8.4'
+            wordpress-version: 'latest'
+          - php-version: '8.5'
+            wordpress-version: 'latest'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Install WordPress and run plugin integration tests
+        uses: holyhope/test-wordpress-plugin-github-action@v2.0.4
+        with:
+          plugin_slug: example-plugin
+          plugin_dir: .
+          php_version: ${{ matrix.php-version }}
+          wordpress_version: ${{ matrix.wordpress-version }}
+          phpunit_version: '^9'
+          scaffold_tests: true
