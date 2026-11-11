@@ -7,6 +7,12 @@
 
 $example_plugin_tests_dir = getenv( 'WP_TESTS_DIR' );
 
+$example_plugin_polyfills_path = getenv( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH' );
+
+if ( $example_plugin_polyfills_path && ! defined( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH' ) ) {
+	define( 'WP_TESTS_PHPUNIT_POLYFILLS_PATH', $example_plugin_polyfills_path );
+}
+
 if ( ! $example_plugin_tests_dir ) {
 	$example_plugin_tests_dir = rtrim( sys_get_temp_dir(), '/\\' ) . '/wordpress-tests-lib';
 }
