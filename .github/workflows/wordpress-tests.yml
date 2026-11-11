@@ -57,8 +57,9 @@ jobs:
 
       - name: Install PHPUnit
         run: |
-          composer global require --no-interaction --prefer-dist phpunit/phpunit:^9.6
+          composer global require --no-interaction --prefer-dist phpunit/phpunit:^9.6 yoast/phpunit-polyfills:^2.0
           echo "$(composer global config bin-dir --absolute)" >> "$GITHUB_PATH"
+          echo "WP_TESTS_PHPUNIT_POLYFILLS_PATH=$(composer global config vendor-dir --absolute)/yoast/phpunit-polyfills" >> "$GITHUB_ENV"
 
       - name: Install WordPress test suite
         run: |
