@@ -2,12 +2,12 @@
 /**
  * Main plugin lifecycle class.
  *
- * @package EphpicmanPlugin
+ * @package ExamplePlugin
  */
 
-namespace EphpicmanPlugin;
+namespace ExamplePlugin;
 
-use EphpicMan\App;
+use Vertex\App;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -47,8 +47,8 @@ final class Plugin {
 	 * @return void
 	 */
 	public function init() {
-		// Register this plugin with EPM.
-		App::get_instance()->registerPlugin( dirname( EPHPICMAN_PLUGIN_FILE ) );
+		// Register this plugin with Vertex.
+		App::getInstance()->registerPlugin( dirname( EXAMPLE_PLUGIN_FILE ) );
 
 		// Temporary translation-pipeline test string.
 		__( 'Hello', 'ephpicman-plugin' );
@@ -56,7 +56,7 @@ final class Plugin {
 		load_plugin_textdomain(
 			'ephpicman-plugin',
 			false,
-			dirname( plugin_basename( EPHPICMAN_PLUGIN_FILE ) ) . '/languages'
+			dirname( plugin_basename( EXAMPLE_PLUGIN_FILE ) ) . '/languages'
 		);
 	}
 

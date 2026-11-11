@@ -1,25 +1,25 @@
-name: Sync EPM
+name: Sync Vertex
 
 on:
   schedule:
     # 09:00 Asia/Tehran (UTC+03:30). GitHub scheduled workflows use UTC.
     - cron: "30 5 * * *"
   workflow_dispatch:
-  # Bootstrap epm/ after workflow creation; sync commits do not touch this file.
+  # Bootstrap vertex/ after this workflow is added.
   push:
     paths:
-      - ".github/workflows/sync-epm.yml"
+      - ".github/workflows/sync-vertex.yml"
 
 permissions:
   contents: write
 
 concurrency:
-  group: sync-epm-main
+  group: sync-vertex-main
   cancel-in-progress: false
 
 jobs:
   sync:
-    name: Sync EPM main into epm/
+    name: Sync Vertex main into vertex/
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -28,19 +28,24 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+
       - name: Configure Git identity
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - name: Add or update EPM subtree
+
+      - name: Add or update Vertex subtree
         shell: bash
         run: |
           set -euo pipefail
-          EPM_REPOSITORY="https://github.com/ephpicman/EPM.git"
-          if [ -d "epm" ]; then
-            git subtree pull --prefix=epm "$EPM_REPOSITORY" main --squash
+
+          FRAMEWORK_REPOSITORY="https://github.com/vertex-wp/framework.git"
+
+          if [ -d "vertex" ]; then
+            git subtree pull --prefix=vertex "$FRAMEWORK_REPOSITORY" main --squash
           else
-            git subtree add --prefix=epm "$EPM_REPOSITORY" main --squash
+            git subtree add --prefix=vertex "$FRAMEWORK_REPOSITORY" main --squash
           fi
+
       - name: Push sync commit to main
         run: git push origin HEAD:main

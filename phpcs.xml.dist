@@ -2,7 +2,7 @@
 <ruleset name="Ephpicman Plugin">
 	<description>WordPress Coding Standards for Ephpicman Plugin Starter.</description>
 	<file>.</file>
-	<exclude-pattern>epm/*</exclude-pattern>
+	<exclude-pattern>vertex/*</exclude-pattern>
 	<exclude-pattern>vendor/*</exclude-pattern>
 	<arg name="basepath" value="."/>
 	<arg name="colors"/>
