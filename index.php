@@ -10,7 +10,7 @@
  * Author URI:        https://github.com/ephpicman
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * Text Domain:       ephpicman-plugin
+ * Text Domain:       example-plugin
  * Domain Path:       /languages
  *
  * @package ExamplePlugin
