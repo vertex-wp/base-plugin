@@ -76,7 +76,7 @@ When raising either minimum, update the plugin header, this section, PHPCS confi
 - Review generated changes to ensure existing translations are preserved.
 - Remove starter/test strings and test translations that are not part of the product.
 
-The current starter configuration still uses the legacy Text Domain `ephpicman-plugin` and updates `languages/ephpicman-plugin-fa_IR.po` when that file exists. This is a technical default only; it does not make the starter an Ephpicman product. Set a product-specific Text Domain and update `.github/workflows/translations.yml` before distributing a derived plugin under its own identity.
+The current starter configuration still uses the Text Domain `example-plugin` and updates `languages/example-plugin-fa_IR.po` when that file exists. Set a product-specific Text Domain and update `.github/workflows/translations.yml` before distributing a derived plugin under its own identity.
 
 ### 4. Add product behaviour
 
